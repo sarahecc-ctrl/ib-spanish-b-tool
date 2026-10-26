@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IB Spanish B Practice</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+height:100vh;
+display:flex;
+flex-direction:column;
+}
+
+header{
+background:#1f4e79;
+color:white;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.container{
+display:grid;
+grid-template-columns:50% 50%;
+height:calc(100vh - 70px);
+}
+
+.panel{
+padding:20px;
+overflow-y:auto;
+border-right:1px solid #ccc;
+}
+
+.questions{
+border-right:none;
+}
+
+.question{
+margin-bottom:30px;
+padding:15px;
+border:1px solid #ddd;
+border-radius:8px;
+}
+
+textarea{
+width:100%;
+height:80px;
+margin-top:10px;
+}
+
+.flag{
+background:#ffe599;
+padding:5px 10px;
+border:none;
+cursor:pointer;
+margin-top:10px;
+}
+
+.flagged{
+background:#ff9900;
+color:white;
+}
+
+.highlight{
+background:yellow;
+}
+
+button{
+cursor:pointer;
+}
+
+#toolbar{
+margin-bottom:15px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>IB Spanish B Practice</h2>
+<div>
+Time Remaining:
+<span id="timer">01:30:00</span>
+</div>
+</header>
+
+<div class="container">
+
+<div class="panel" id="readingPanel">
+
+<div id="toolbar">
+<button onclick="highlightSelection()">
+Highlight Selected Text
+</button>
+</div>
+
+<h3>Reading Passage</h3>
+
+<p id="readingText">
+
+La tecnología ha cambiado radicalmente la manera en que las personas se comunican. Durante las últimas décadas, el acceso a internet ha permitido que individuos de diferentes partes del mundo colaboren y compartan información instantáneamente. Sin embargo, algunos expertos sostienen que esta conectividad también puede reducir la calidad de las interacciones personales.
+
+Muchos jóvenes utilizan redes sociales diariamente para mantenerse en contacto con amigos y familiares. Aunque estas plataformas ofrecen ventajas evidentes, existe preocupación acerca del tiempo excesivo que algunas personas pasan frente a las pantallas.
+
+Por otro lado, las herramientas digitales han facilitado el aprendizaje y el acceso a recursos educativos. Gracias a cursos en línea y bibliotecas virtuales, estudiantes de diversas regiones pueden acceder a materiales que anteriormente eran difíciles de conseguir.
+
+</p>
+
+</div>
+
+<div class="panel questions">
+
+<div class="question">
+
+<p><strong>1. What is the main purpose of the text?</strong></p>
+
+<label>
+<input type="radio" name="q1">
+To criticize education
+</label><br>
+
+<label>
+<input type="radio" name="q1">
+To discuss the effects of technology
+</label><br>
+
+<label>
+<input type="radio" name="q1">
+To advertise social networks
+</label><br>
+
+<label>
+<input type="radio" name="q1">
+To explain internet history
+</label>
+
+<textarea placeholder="Notes"></textarea>
+
+<button class="flag" onclick="toggleFlag(this)">
+Flag for review
+</button>
+
+</div>
+
+<div class="question">
+
+<p><strong>2. According to the text, what concern exists regarding social media?</strong></p>
+
+<textarea placeholder="Write your answer"></textarea>
+
+<textarea placeholder="Notes"></textarea>
+
+<button class="flag" onclick="toggleFlag(this)">
+Flag for review
+</button>
+
+</div>
+
+<div class="question">
+
+<p><strong>3. What does the word “instantáneamente” most nearly mean?</strong></p>
+
+<label>
+<input type="radio" name="q3">
+Slowly
+</label><br>
+
+<label>
+<input type="radio" name="q3">
+Immediately
+</label><br>
+
+<label>
+<input type="radio" name="q3">
+Rarely
+</label><br>
+
+<label>
+<input type="radio" name="q3">
+Unexpectedly
+</label>
+
+<textarea placeholder="Notes"></textarea>
+
+<button class="flag" onclick="toggleFlag(this)">
+Flag for review
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let time = 90 * 60;
+
+function updateTimer() {
+
+let h = Math.floor(time/3600);
+let m = Math.floor((time%3600)/60);
+let s = time%60;
+
+document.getElementById("timer").innerText =
+String(h).padStart(2,"0")+":"+
+String(m).padStart(2,"0")+":"+
+String(s).padStart(2,"0");
+
+if(time>0){
+time--;
+}
+
+}
+
+setInterval(updateTimer,1000);
+
+function toggleFlag(button){
+
+button.classList.toggle("flagged");
+
+if(button.innerText==="Flag for review"){
+button.innerText="Flagged";
+}
+else{
+button.innerText="Flag for review";
+}
+
+}
+
+function highlightSelection(){
+
+let selection = window.getSelection();
+
+if(selection.rangeCount){
+
+let range = selection.getRangeAt(0);
+
+let span = document.createElement("span");
+
+span.className="highlight";
+
+range.surroundContents(span);
+
+}
+
+}
+
+const fields = document.querySelectorAll("textarea");
+
+fields.forEach(field=>{
+
+field.addEventListener("input",()=>{
+
+localStorage.setItem(
+field.placeholder + Math.random(),
+field.value
+);
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
